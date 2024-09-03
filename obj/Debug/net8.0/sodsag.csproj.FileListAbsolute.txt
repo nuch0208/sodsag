@@ -125,6 +125,7 @@ D:\sodsag\obj\Debug\net8.0\sodsag.MvcApplicationPartsAssemblyInfo.cs
 D:\sodsag\obj\Debug\net8.0\sodsag.MvcApplicationPartsAssemblyInfo.cache
 D:\sodsag\obj\Debug\net8.0\sodsag.RazorAssemblyInfo.cache
 D:\sodsag\obj\Debug\net8.0\sodsag.RazorAssemblyInfo.cs
+D:\sodsag\obj\Debug\net8.0\sodsag.sourcelink.json
 D:\sodsag\obj\Debug\net8.0\staticwebassets.build.json
 D:\sodsag\obj\Debug\net8.0\staticwebassets.development.json
 D:\sodsag\obj\Debug\net8.0\staticwebassets\msbuild.sodsag.Microsoft.AspNetCore.StaticWebAssets.props

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sodsag.Data;
 using sodsag.Models;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace sodsag.Controllers
@@ -13,23 +15,15 @@ namespace sodsag.Controllers
 
     public class NurseRequestController : Controller
     {
-        private readonly AppicationDbContext context;
+        private readonly AppicationDbContext _context;
         public NurseRequestController(AppicationDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
-        public IActionResult Index(string searchString)
+        public IActionResult Index()
         {
-            Response.Headers.Add("Refresh","15");
 
-            List<NurseRequest> NurseRequests;
-            var nurserequest = context.NurseRequests.Include(x=>x.Patients).OrderByDescending(p => p.JobId).ToList();
-
-            if(!String.IsNullOrEmpty(searchString))
-            {
-                nurserequest = nurserequest.Where(n => n.StartPoint.ToLower().Contains(searchString)).ToList();
-            }
-            
+            var nurserequest = _context.Patients.Include(x=>x.NurseRequest).ToList();
             return View(nurserequest);
 
         }
@@ -39,11 +33,12 @@ namespace sodsag.Controllers
         {
             NurseRequest nurseRequest = new NurseRequest();
             nurseRequest.Patients.Add(new Patient() {Id = 1 });
-
+            // nurseRequest.Patients.Add(new Patient() {Id = 2 });
+            // nurseRequest.Patients.Add(new Patient() {Id = 3 });
             return View(nurseRequest);
         }
 
-         [HttpPost]
+        [HttpPost]
         public IActionResult Create(NurseRequest nurseRequest)
         {
             foreach(Patient patient in nurseRequest.Patients)
@@ -51,9 +46,28 @@ namespace sodsag.Controllers
                 if (patient.Qn == null || patient.Qn.Length == 0)
                     nurseRequest.Patients.Remove(patient);
             }
-            context.Add(nurseRequest);
-            context.SaveChanges();
+            _context.Add(nurseRequest);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+         public IActionResult Edit(int id, NurseRequestDto nurseRequestDto) 
+         {
+            var nurseRequest = _context.NurseRequests.Find(id); 
+            if(nurseRequest == null) 
+            {
+                return RedirectToAction("Index", "NurseRequest");
+            }
+            if (ModelState.IsValid)
+            {
+                ViewData["NurseRequestId"] = nurseRequest.JobId;   
+                return View(nurseRequestDto); 
+            }
+
+            _context.SaveChanges(); 
+
+            return RedirectToAction("Index", "NurseRequest");
+         }
      }
 }

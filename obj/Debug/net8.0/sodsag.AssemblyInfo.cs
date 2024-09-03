@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sodsag")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50438b399ee9b079147ee4860149cc028e815cd2")]
 [assembly: System.Reflection.AssemblyProductAttribute("sodsag")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sodsag")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
