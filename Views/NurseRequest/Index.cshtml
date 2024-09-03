@@ -1,0 +1,91 @@
+@model IEnumerable<Patient>
+@{
+    ViewBag.Title = "รายการขอใช้บริการ";
+   DateTime ArticleDate = DateTime.Now;
+    var dateAndTime = DateTime.Now;
+    var date = dateAndTime.Date;
+    
+}
+
+<h4>รายการขอใช้บริการ</h4>
+@* <h4>@ArticleDate</h4> *@
+
+    <div class="col-md-4">
+        <form class="d-flex" asp-action="Index" asp-asp-controller="NurseRequest">
+            <input name="searchString" class="form-control me-1" type="search" placeholder="ค้นหาแผนกต้นทาง" aria-label="Search">
+            <button class="btn btn-dark" type="submit">ค้นหา</button>
+        </form>
+    </div>
+    <div>
+        <a asp-action="Index" class="text-dark">Back to Full List</a>
+    </div>
+
+<form method="post" enctype="multipart/form-data">
+<table class="table">
+    <thead>
+        <tr>
+            <th>เวลาร้องขอ</th>
+            <th>QN / HN</th>
+            <th>ผู้ป่วย</th>
+            <th>ต้นทาง</th>
+            <th>ปลายทาง</th>
+            <th>พนักงานเวรเปล</th>
+            <th>ประเภทรถ</th>
+            <th>ระดับความเร่งด่วน </th>
+            <th>สถานะ</th>
+            <th>หมายเหตุ</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var nurserequest in Model) //วน foreach จากขอมูล ในตาราง nurserequest
+        {
+           @if(nurserequest.NurseRequest.UrgentType == "ปกติ") //ถ้า UrgentType = "ปกติ"
+            {
+                ViewBag.color = "background-color:rgb(136, 209, 136);"; //ให้แสดงสีนี
+            }
+         @if(nurserequest.NurseRequest.UrgentType == "ด่วน") //ถ้า UrgentType = "ด่วน"
+            {
+                ViewBag.color = "background-color:rgb(247, 247, 100);";//ให้แสดงสีนี
+            }
+         @if(nurserequest.NurseRequest.UrgentType == "ด่วนมาก") //ถ้า UrgentType = "ด่วนมาก"
+            {
+                ViewBag.color = "background-color:rgb(240, 114, 114);";//ให้แสดงสีนี
+            }
+        @if(nurserequest.NurseRequest.JobStatusName != "สิ้นสุดการทำงาน") //ถ้า JobStatusName = "สิ้นสุดการทำงาน"
+            {
+
+        @if(nurserequest.NurseRequest.JobStatusName != "ยกเลิกบริการ") //ถ้า JobStatusName = "ยกเลิกบริการ"
+            { 
+        @if(nurserequest.NurseRequest.CreateDate == date)
+            {
+            <tr class="label-warning" style="color:black; @ViewBag.color">
+                    <td>@nurserequest.NurseRequest.CreateDate</td>
+                    @* <td>@ArticleDate</td>
+                    <td>@date</td> *@
+                    <td>@Html.DisplayFor(modelItem => nurserequest.Qn)</td>
+                    <td>
+                    @* <a href="http://172.16.200.202:7800/NurseRequest/GetPatient2?paraHN=@Html.DisplayFor(modelItem => nurserequest.QN)" target="_blank">รายละเอียด</a>  *@
+                    </td>
+                    <td>@nurserequest.NurseRequest.StartPoint</td>
+                    <td>@nurserequest.NurseRequest.EndPoint1</td>
+                    <td>@nurserequest.NurseRequest.PorterFname</td>
+                    <td>@nurserequest.NurseRequest.MaterialType</td>
+                    <td>@nurserequest.NurseRequest.UrgentType</td>
+                    <td>@nurserequest.NurseRequest.JobStatusName</td>
+                    <td>@nurserequest.NurseRequest.Remark</td>
+                    <td style="white-space:nowrap">
+                        <a class="btn btn-warning btn-sm" asp-controllers="NurseRequest" asp-action="Edit" asp-route-id="@nurserequest.NurseRequest.JobId">แก้ไขข้อมูล</a>
+                        <input type="submit" class="btn btn-danger btn-sm" asp-controllers="NurseRequest" asp-action="Cancel" asp-route-id="@nurserequest.NurseRequest.JobId" value="ยกเลิก"  onclick="return confirm('คุณต้องการยกเลิกรายการนี้ใช่หรือไม่?')"/>
+                    </td>
+                </tr>
+                }
+                }
+            }
+        }
+        
+    </tbody>
+</table>
+</form>
