@@ -17,10 +17,10 @@ namespace sodsag.Models
         [ForeignKey("NurseRequest")]
         public int ReqId {get; set; }
         public virtual NurseRequest NurseRequest {get ; private set ;}
+        [Required]
         public string? Qn { get; set; }
         
-        
-       
+
     }
 
 }
